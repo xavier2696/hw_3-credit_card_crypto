@@ -8,8 +8,8 @@ module LuhnValidator
   # returns: true/false whether last digit is correct
   def validate_checksum
     nums_a = number.to_s.chars.map(&:to_i)
-    sum_digits = nums_a.reverse.map.with_index { |v, i| return_value(v, i) }
-    sum = sum_digits.reduce { |n1, n2| n1 + n2 }
+    sum = nums_a.reverse.map.with_index { |v, i| return_value(v, i) }
+                .reduce { |n1, n2| n1 + n2 }
     (sum % 10).zero?
   end
 
