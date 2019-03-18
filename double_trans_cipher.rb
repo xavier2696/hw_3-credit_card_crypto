@@ -7,9 +7,34 @@ module DoubleTranspositionCipher
     # 3. sort rows in predictibly random way using key as seed
     # 4. sort columns of each row in predictibly random way
     # 5. return joined cyphertext
+    n,m = self.get_matrix_size(document.to_s)
+    document = get_padded_string(document.to_s, n * m)
+    matrix = document.chars.each_slice(n).map { |e| e}
+    r_array = (0...n).to_a.shuffle!(random: Random.new(key))
+    matrix.map { |row| row.map.with_index { |v, i|  row[r_array[i]]}.reduce{ |n1,n2| "#{n1}#{n2}" } }.reduce{ |n1,n2| "#{n1}#{n2}" }
   end
 
-  def self.decrypt(ciphertext, key)
+  def self.decrypt(document, key)
     # TODO: FILL THIS IN!
+    n,m = self.get_matrix_size(document.to_s)
+    matrix = document.to_s.chars.each_slice(n).map { |e| e}
+    r_array = (0...n).to_a.shuffle!(random: Random.new(key))
+    matrix.map { |row| row.map.with_index { |v, i|  row[r_array.index(i)]}.reduce{ |n1,n2| "#{n1}#{n2}" } }.reduce{ |n1,n2| "#{n1}#{n2}" }.strip
+  end
+
+  def self.get_matrix_size(string)
+    size = Integer.sqrt(string.length)
+    if string.length == size * size
+      return size, size
+    elsif string.length < (size + 1) * size
+      return size + 1, size
+    else
+      return size + 1, size + 1
+    end
+  end
+
+  def self.get_padded_string(string, size)
+    return string if string.length == size
+    string + ([" "] * (size - string.length)).reduce{ |n1,n2| "#{n1}#{n2}" }
   end
 end
