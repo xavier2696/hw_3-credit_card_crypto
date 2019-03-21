@@ -19,7 +19,7 @@ module DoubleTranspositionCipher
 
   def self.decrypt(document, key)
     # TODO: FILL THIS IN!
-    n = get_matrix_size(document.to_s)
+    n, _m = get_matrix_size(document.to_s)
     matrix = document.to_s.chars.each_slice(n).map { |e| e }
     r_array = (0...n).to_a.shuffle!(random: Random.new(key))
     get_decrypted_string(matrix, r_array)
