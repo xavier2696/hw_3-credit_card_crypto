@@ -2,8 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     ffi (1.10.0)
+    ipaddr (1.2.2)
     json (2.2.0)
     minitest (5.11.3)
+    openssl (2.1.2)
+      ipaddr
     rbnacl (6.0.1)
       ffi
 
@@ -13,6 +16,7 @@ PLATFORMS
 DEPENDENCIES
   json
   minitest
+  openssl
   rbnacl
 
 BUNDLED WITH

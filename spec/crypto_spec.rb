@@ -10,7 +10,7 @@ describe 'Test card info encryption' do
   cc = CreditCard.new('4916603231464963', 'Mar-30-2020',
                       'Soumya Ray', 'Visa')
   key = 3
-  modern_cipher_key = ModernSymmetricCipher.generate_new_key()
+  modern_cipher_key = ModernSymmetricCipher.generate_new_key
   encoded_values = [SubstitutionCipher::Caesar.encrypt(cc, key),
                     SubstitutionCipher::Permutation.encrypt(cc, key),
                     DoubleTranspositionCipher.encrypt(cc, key),
@@ -19,7 +19,8 @@ describe 'Test card info encryption' do
                     SubstitutionCipher::Permutation.decrypt(encoded_values[1],
                                                             key),
                     DoubleTranspositionCipher.decrypt(encoded_values[2], key),
-                    ModernSymmetricCipher.decrypt(encoded_values[3], modern_cipher_key)]
+                    ModernSymmetricCipher.decrypt(encoded_values[3],
+                                                  modern_cipher_key)]
   encoded_decoded_array = [['Caesar', encoded_values[0], decoded_values[0]],
                            ['Permutation', encoded_values[1],
                             decoded_values[1]],
