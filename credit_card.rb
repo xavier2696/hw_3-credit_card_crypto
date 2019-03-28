@@ -2,6 +2,7 @@
 
 require_relative './luhn_validator.rb'
 require 'json'
+require 'openssl'
 
 # class CreditCard
 class CreditCard
@@ -45,6 +46,7 @@ class CreditCard
     #   - Produce a hash (using default hash method) of the credit card's
     #     serialized contents.
     #   - Credit cards with identical information should produce the same hash
+    to_json.hash
   end
 
   # return a cryptographically secure hash
@@ -52,5 +54,6 @@ class CreditCard
     # TODO: implement this method
     #   - Use sha256 from openssl to create a cryptographically secure hash.
     #   - Credit cards with identical information should produce the same hash
+    OpenSSL::Digest::SHA256.hexdigest(to_json)
   end
 end
