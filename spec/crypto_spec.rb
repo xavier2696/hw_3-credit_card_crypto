@@ -3,24 +3,30 @@
 require_relative '../credit_card'
 require_relative '../substitution_cipher'
 require_relative '../double_trans_cipher'
+require_relative '../sk_cipher'
 require 'minitest/autorun'
 
 describe 'Test card info encryption' do
   cc = CreditCard.new('4916603231464963', 'Mar-30-2020',
                       'Soumya Ray', 'Visa')
   key = 3
+  modern_cipher_key = ModernSymmetricCipher.generate_new_key()
   encoded_values = [SubstitutionCipher::Caesar.encrypt(cc, key),
                     SubstitutionCipher::Permutation.encrypt(cc, key),
-                    DoubleTranspositionCipher.encrypt(cc, key)]
+                    DoubleTranspositionCipher.encrypt(cc, key),
+                    ModernSymmetricCipher.encrypt(cc, modern_cipher_key)]
   decoded_values = [SubstitutionCipher::Caesar.decrypt(encoded_values[0], key),
                     SubstitutionCipher::Permutation.decrypt(encoded_values[1],
                                                             key),
-                    DoubleTranspositionCipher.decrypt(encoded_values[2], key)]
+                    DoubleTranspositionCipher.decrypt(encoded_values[2], key),
+                    ModernSymmetricCipher.decrypt(encoded_values[3], modern_cipher_key)]
   encoded_decoded_array = [['Caesar', encoded_values[0], decoded_values[0]],
                            ['Permutation', encoded_values[1],
                             decoded_values[1]],
                            ['Double Transposition', encoded_values[2],
-                            decoded_values[2]]]
+                            decoded_values[2]],
+                           ['Modern Symmetric Cipher', encoded_values[3],
+                            decoded_values[3]]]
 
   encoded_decoded_array.each do |c_name, enc, dec|
     describe "Using #{c_name} cipher" do
